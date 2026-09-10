@@ -1,7 +1,7 @@
 const projData = [
   {
     title: "Respiratory Illness Data Pages",
-    url: "https://www.nyc.gov/assets/doh/respiratory-illness-data/index.html#/",
+    url: "https://nyc-respiratory-illness.netlify.app/",
     org: "NYC Department of Health",
     role: "Product Lead & Data Visualization Engineer",
     focus: "Led design and build of a public respiratory-virus tracker: chart architecture, interaction design, and a modular React front-end over cross-agency data.",
@@ -110,25 +110,33 @@ body.append("ul")
 const LOCK_INDEX = num(projData.length);
 const SS_KEY = "mm_private_project";
 
-const lockThumb = state => `
-  <div class="card__thumb card__thumb--lock" aria-hidden="true">
-    <svg viewBox="0 0 24 24" width="34" height="34" fill="none"
-         stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="4" y="10.5" width="16" height="10" rx="2"></rect>
-      <path d="${state === "open"
-        ? "M8 10.5V7a4 4 0 0 1 7.5-1.9"
-        : "M8 10.5V7a4 4 0 0 1 8 0v3.5"}"></path>
-    </svg>
+const LOCK_META = {
+  title: "Community Health Profiles Redesign",
+  org: "NYC Department of Health · Prototype",
+  img: "chp-redesign.png"
+};
+
+const lockIcon = (open, size = 13) => `
+  <svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="4" y="10.5" width="16" height="10" rx="2"></rect>
+    <path d="${open ? "M8 10.5V7a4 4 0 0 1 7.5-1.9" : "M8 10.5V7a4 4 0 0 1 8 0v3.5"}"></path>
+  </svg>`;
+
+const lockThumb = open => `
+  <div class="card__thumb">
+    <img src="assets/${LOCK_META.img}" alt="${LOCK_META.title}" loading="lazy">
+    <span class="card__lockbadge">${lockIcon(open, 12)}${open ? "Unlocked" : "Locked"}</span>
   </div>`;
 
 function lockedMarkup() {
   return `
-    ${lockThumb("closed")}
+    ${lockThumb(false)}
     <div class="card__body">
       <p class="card__index">${LOCK_INDEX}</p>
-      <h3 class="card__title">Unreleased project</h3>
-      <p class="card__org">Private &middot; password required</p>
-      <p class="card__meta">A current client project that isn&rsquo;t public yet. Enter the password to view the write-up and prototype link.</p>
+      <h3 class="card__title">${LOCK_META.title}</h3>
+      <p class="card__org">${LOCK_META.org}</p>
+      <p class="card__meta">A redesign of the city&rsquo;s neighborhood health profiles, in progress. Enter the password for the write-up and the live prototype link.</p>
       <form class="lock-form" novalidate>
         <input class="lock-form__input" type="password" name="pw" autocomplete="off"
                spellcheck="false" placeholder="Password" aria-label="Project password" required>
@@ -141,21 +149,15 @@ function lockedMarkup() {
 function unlockedMarkup(p) {
   const stack = (p.stack || []).map(s => `<li>${s}</li>`).join("");
   return `
-    ${lockThumb("open")}
+    ${lockThumb(true)}
     <div class="card__body">
       <p class="card__index">${LOCK_INDEX}</p>
-      <h3 class="card__title">${p.title}</h3>
-      <p class="card__org">${p.org}</p>
+      <h3 class="card__title">${LOCK_META.title}</h3>
+      <p class="card__org">${p.org || LOCK_META.org}</p>
       <p class="card__meta"><span class="card__role">${p.role}.</span> ${p.focus}</p>
       <p class="card__impact"><span class="card__impact-label">Impact</span> ${p.impact}</p>
       <ul class="card__stack">${stack}</ul>
-      <p class="card__note">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="4" y="10.5" width="16" height="10" rx="2"></rect><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path>
-        </svg>
-        ${p.note}
-      </p>
+      <p class="card__note">${lockIcon(false, 13)} ${p.note}</p>
       <a class="btn btn--ghost lock-visit" href="${p.url}" target="_blank" rel="noopener">Visit prototype &#8599;</a>
     </div>`;
 }
