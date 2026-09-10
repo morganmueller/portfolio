@@ -79,9 +79,10 @@ cards
 
 const body = cards.append("div").attr("class", "card__body");
 
+// the locked card is inserted at position 2, so public cards are 01, 03, 04, 05, 06
 body.append("p")
   .attr("class", "card__index")
-  .text((d, i) => num(i));
+  .text((d, i) => num(i === 0 ? 0 : i + 1));
 
 body.append("h3")
   .attr("class", "card__title")
@@ -106,8 +107,8 @@ body.append("ul")
   .join("li")
   .text(s => s);
 
-/* ---------- Private, password-locked project ---------- */
-const LOCK_INDEX = num(projData.length);
+/* ---------- Private, password-locked project (shown 2nd, next to Respiratory) ---------- */
+const LOCK_INDEX = num(1);
 const SS_KEY = "mm_private_project";
 
 const LOCK_META = {
@@ -167,6 +168,10 @@ const lockCard = root
   .attr("class", "card card--locked")
   .node();
 lockCard.innerHTML = lockedMarkup();
+
+// move it into the 2nd grid slot, right after Respiratory
+const gridEl = root.node();
+gridEl.insertBefore(lockCard, gridEl.children[1]);
 
 function reveal(p, { animate = true } = {}) {
   lockCard.classList.remove("card--locked");
