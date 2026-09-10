@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Encrypt private project</title>
+<style>
+  body { font: 15px/1.6 -apple-system, system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; }
+  h1 { font-size: 20px; }
+  textarea { width: 100%; font-family: ui-monospace, Menlo, monospace; font-size: 13px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+  input { font: inherit; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; }
+  button { font: inherit; padding: 9px 18px; border: 0; border-radius: 8px; background: #2b5193; color: #fff; cursor: pointer; }
+  .row { margin: 16px 0; }
+  code { background: #f2f2ef; padding: 1px 5px; border-radius: 4px; }
+  .out { white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<h1>Encrypt the private project</h1>
+<p>
+  Edit the JSON, set a password, click <b>Generate</b>, then paste the result into
+  <code>assets/locked-project.json</code>. The same password unlocks the card on the
+  live site. Serve this file over <code>http://localhost</code> (e.g.
+  <code>python3 -m http.server</code>). Opening it as <code>file://</code> may block the crypto API.
+</p>
+
+<div class="row">
+  <label><b>Project details (JSON)</b></label>
+  <textarea id="json" rows="14">{
+  "title": "NYC Community Health Profiles Redesign",
+  "org": "NYC Department of Health · Prototype",
+  "role": "Product Lead, Design & Engineering",
+  "focus": "A config-driven rebuild of the city's neighborhood health reports: interactive maps, indicator charts with cross-component hover sync, and URL-driven state, replacing 59 static PDF profiles with one explorable data product.",
+  "impact": "In prototype: every neighborhood, indicator, and section renders from a single configuration system.",
+  "stack": ["Next.js", "React", "D3", "Config-driven UI"],
+  "url": "https://elaborate-tarsier-c02530.netlify.app/neighborhood/jackson-heights#community-safety",
+  "note": "Unreleased prototype. Please keep this link private."
+}</textarea>
+</div>
+
+<div class="row">
+  <label><b>Password</b> &nbsp;</label>
+  <input id="pw" type="text" size="28" value="CHP-2026">
+  &nbsp;
+  <button id="go">Generate</button>
+</div>
+
+<div class="row">
+  <label><b>→ assets/locked-project.json</b></label>
+  <textarea id="out" class="out" rows="10" readonly placeholder="Result appears here"></textarea>
+</div>
+
+<script>
+const ITERS = 210000;
+document.getElementById('go').addEventListener('click', async () => {
+  const out = document.getElementById('out');
+  let payload;
+  try { payload = JSON.parse(document.getElementById('json').value); }
+  catch (e) { out.value = 'JSON error: ' + e.message; return; }
+
+  const pw = document.getElementById('pw').value;
+  if (!pw) { out.value = 'Set a password.'; return; }
+
+  const enc = new TextEncoder();
+  const b64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt, iterations: ITERS, hash: 'SHA-256' },
+    baseKey, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(JSON.stringify(payload)));
+
+  out.value = JSON.stringify({
+    v: 1, iterations: ITERS,
+    salt: b64(salt), iv: b64(iv), ct: b64(ct)
+  }, null, 2);
+});
+</script>
+</body>
+</html>

@@ -6,16 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light only">
 
-  <title>Morgan Mueller | Product Lead, Designer & Engineer</title>
+  <title>Morgan Mueller | Data Visualization & Data Products</title>
   <meta name="author" content="Morgan Mueller">
-  <meta name="description" content="Morgan Mueller is a product leader who designs and builds data-driven products end to end.">
-  <meta name="keywords" content="Morgan Mueller, product leadership, product design, product engineering, product management, data visualization, design systems, public health">
+  <meta name="description" content="Morgan Mueller designs and builds data visualization products: public dashboards, decision-support tools, and the visualization systems behind them.">
+  <meta name="keywords" content="Morgan Mueller, data visualization, data products, dashboards, information design, D3, Vega-Lite, visualization systems, product design, product engineering, public health">
 
   <link rel="canonical" href="https://morganmueller.com">
-  <meta property="og:title" content="Morgan Mueller | Product Lead, Designer & Engineer" />
-  <meta property="og:description" content="Morgan Mueller is a product leader who designs and builds data-driven products end to end." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <meta property="og:title" content="Morgan Mueller | Data Visualization & Data Products" />
+  <meta property="og:description" content="I design and build data visualization products: public dashboards, decision-support tools, and the visualization systems behind them." />
   <meta property="og:url" content="https://morganmueller.com" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://morganmueller.com/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Morgan Mueller | Data Visualization & Data Products" />
+  <meta name="twitter:description" content="I design and build data visualization products, end to end." />
+  <meta name="twitter:image" content="https://morganmueller.com/assets/og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +40,8 @@
     <header class="topbar">
       <span class="monogram">Morgan Mueller</span>
       <nav class="topbar__nav">
-        <a href="https://github.com/morganmueller" target="_blank" rel="noopener">GitHub</a>
+        <a href="#work">Work</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
         <a href="https://www.linkedin.com/in/morgan-mueller-6b3719a3/" target="_blank" rel="noopener">LinkedIn</a>
       </nav>
     </header>
@@ -39,18 +49,27 @@
     <main>
 
       <section class="hero">
+        <svg class="hero__spark" viewBox="0 0 640 120" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points="0,92 64,74 128,84 192,52 256,63 320,34 384,46 448,22 512,40 576,14 640,26" />
+        </svg>
         <h1>Morgan Mueller</h1>
-        <p class="hero__role">Product leader who designs and builds</p>
-        <p class="hero__lede">
-          I work across the whole stack of the product job &mdash; leading discovery and
-          roadmap, designing the interface and the system behind it, and writing the code
-          that ships.
+        <p class="hero__role">Product Development Lead, NYC Department of Health and Mental Hygiene</p>
+        <p class="hero__meta">
+          M.S. Human&ndash;Computer Interaction, NYU &nbsp;&middot;&nbsp;
+          Adjunct Professor, Parsons School of Design &nbsp;&middot;&nbsp;
+          New York City
         </p>
         <p class="hero__lede">
-          Most of my work centers on data-heavy products: public dashboards,
-          decision-support tools, and the design systems that keep them coherent as they
-          grow. I&rsquo;ve owned high-traffic products end to end and care most about the
-          ones that stay usable and maintainable years after launch.
+          I design and build data visualization products: public dashboards,
+          decision-support tools, and the visualization systems behind them. I work end
+          to end, from data modeling and chart architecture to interaction design,
+          accessibility, and the front-end that ships.
+        </p>
+        <p class="hero__lede">
+          For the past several years I&rsquo;ve led high-traffic public data products at the
+          NYC Department of Health, used by policymakers, researchers, journalists,
+          and the public. I also teach data visualization and computational design at
+          Parsons.
         </p>
       </section>
 
@@ -58,23 +77,23 @@
         <h2 class="section-label">What I do</h2>
         <div class="caps__grid">
           <div class="cap">
-            <h3>Product Leadership</h3>
+            <h3>Data Visualization</h3>
             <ul>
-              <li>Discovery, framing, and roadmap ownership</li>
+              <li>Chart architecture and visual encoding for dense data</li>
+              <li>Visualization systems and reusable chart components</li>
+              <li>Legibility and accessibility as requirements, not polish</li>
+            </ul>
+          </div>
+          <div class="cap">
+            <h3>Data Products</h3>
+            <ul>
+              <li>Discovery to launch, with roadmap ownership</li>
+              <li>Public dashboards and decision-support tools</li>
               <li>Stakeholder alignment across policy, research, and comms</li>
-              <li>Scoping and shipping under real constraints</li>
             </ul>
           </div>
           <div class="cap">
-            <h3>Product Design</h3>
-            <ul>
-              <li>Interaction and information design for complex data</li>
-              <li>Design systems and reusable component libraries</li>
-              <li>Accessibility as a first-class requirement</li>
-            </ul>
-          </div>
-          <div class="cap">
-            <h3>Product Engineering</h3>
+            <h3>Engineering</h3>
             <ul>
               <li>Front-end build in React, D3, and Vega-Lite</li>
               <li>Data modeling and pipelines behind the interface</li>
@@ -82,22 +101,55 @@
             </ul>
           </div>
         </div>
+        <div class="tools">
+          <span class="tools__label">Tools &amp; methods</span>
+          <ul class="chips">
+            <li>D3</li>
+            <li>Vega-Lite</li>
+            <li>React</li>
+            <li>TypeScript</li>
+            <li>Python</li>
+            <li>SQL</li>
+            <li>Figma</li>
+            <li>Tableau</li>
+            <li>Power BI</li>
+            <li>Maps &amp; GIS</li>
+            <li>Azure</li>
+            <li>Design systems</li>
+            <li>Prototyping</li>
+            <li>Human-centered design</li>
+          </ul>
+        </div>
       </section>
 
       <section class="how">
         <h2 class="section-label">How I work</h2>
         <p>
-          I like to hold the whole thread &mdash; the problem, the design, and the
-          implementation &mdash; rather than hand it off at each seam. In practice that
-          means prototyping early, designing the data model and the UI together, and
-          treating the codebase as a product surface that has to last. The result is
-          products that ship faster and hold up longer.
+          I like to hold the whole thread, from the data to the visualization to the
+          implementation, rather than hand it off at each seam. In practice that
+          means prototyping early, designing the data model and the interface together,
+          and treating the codebase as a product surface that has to last. The result is
+          data products that ship faster and hold up longer.
         </p>
       </section>
 
-      <section class="work">
-        <h2 class="section-label">Selected product work</h2>
+      <section class="work" id="work">
+        <h2 class="section-label">Selected work</h2>
         <div id="code-projects" class="work__grid"></div>
+      </section>
+
+      <section class="contact">
+        <h2 class="section-label">Contact</h2>
+        <p class="contact__lead">Let&rsquo;s talk.</p>
+        <p class="contact__body">
+          I&rsquo;m always glad to talk data visualization, data products, and
+          public-interest technology, whether you&rsquo;re hiring, collaborating,
+          or just curious about the work.
+        </p>
+        <div class="contact__actions">
+          <a class="btn btn--primary" href="https://www.linkedin.com/in/morgan-mueller-6b3719a3/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+          <a class="btn btn--ghost" href="assets/resume.pdf" target="_blank" rel="noopener">View résumé</a>
+        </div>
       </section>
 
     </main>
@@ -105,8 +157,9 @@
     <footer class="foot">
       <div class="foot__links">
         <a href="#top">Top</a>
-        <a href="https://github.com/morganmueller" target="_blank" rel="noopener">GitHub</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
         <a href="https://www.linkedin.com/in/morgan-mueller-6b3719a3/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/morganmueller" target="_blank" rel="noopener">GitHub</a>
       </div>
       <p class="foot__copy">&copy; Morgan Mueller 2026</p>
     </footer>
