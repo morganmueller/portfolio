@@ -141,8 +141,17 @@ section[id] { scroll-margin-top: 28px; }
   font-size: clamp(1.15rem, 2vw, 1.35rem);
   font-weight: 500;
   color: var(--accent);
-  margin: 0 0 32px;
+  margin: 0 0 10px;
   max-width: 32ch;
+}
+
+.hero__craft {
+  position: relative;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 26px;
+  max-width: 52ch;
 }
 
 .hero__meta {
@@ -472,7 +481,18 @@ section[id] { scroll-margin-top: 28px; }
 
 .contact__body {
   color: var(--muted);
+  margin: 0 0 16px;
+  max-width: 58ch;
+}
+
+.contact__looking {
+  display: inline-block;
   margin: 0 0 28px;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  color: var(--accent-strong);
+  background: #eef2fa;
+  border-radius: 8px;
   max-width: 58ch;
 }
 
