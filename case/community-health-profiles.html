@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light only">
+  <meta name="robots" content="noindex">
+
+  <title>Case study: Community Health Profiles Redesign | Morgan Mueller</title>
+  <meta name="author" content="Morgan Mueller">
+  <meta name="description" content="Turning 59 static neighborhood health reports into one config-driven data product: a single render path, URL-driven state, and cross-component interaction.">
+
+  <link rel="canonical" href="https://morganmueller.com/case/community-health-profiles.html">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+  <meta property="og:title" content="Case study: Community Health Profiles Redesign" />
+  <meta property="og:description" content="59 neighborhood health reports, rebuilt as one system." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link href="../css/main.css" rel="stylesheet">
+  <link href="../css/case.css" rel="stylesheet">
+</head>
+
+<body id="top">
+
+  <div class="wrap">
+
+    <header class="topbar">
+      <a class="monogram" href="../index.html">Morgan Mueller</a>
+      <nav class="topbar__nav">
+        <a href="../index.html#work">Work</a>
+        <a href="../assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+        <a href="https://www.linkedin.com/in/morgan-mueller-6b3719a3/" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+    </header>
+
+    <article class="case">
+
+      <div class="case__hero">
+        <a class="case__back" href="../index.html#work">&#8592; Back to work</a>
+        <p class="case__eyebrow">Case study &middot; Prototype</p>
+        <h1>Community Health Profiles, rebuilt as one system</h1>
+        <p class="case__sub">
+          Turning 59 static neighborhood health reports into a single config-driven data
+          product: one render path, deep-linkable state, and interaction that works across
+          the whole page.
+        </p>
+
+        <dl class="case__facts">
+          <dt>Role</dt><dd>Product lead, design, and engineering</dd>
+          <dt>Timeframe</dt><dd>2025&ndash;present (prototype)</dd>
+          <dt>Team</dt><dd>Led development; partnered with epidemiology and content teams on indicators and copy</dd>
+          <dt>Stack</dt><dd>Next.js, React, D3, config-driven rendering</dd>
+          <dt>Status</dt><dd>Unreleased prototype, password-protected</dd>
+        </dl>
+
+        <div class="case__shot">
+          <img src="../assets/chp-redesign.png" alt="The Community Health Profiles prototype: a neighborhood at-a-glance view with stat tiles and paired neighborhood-versus-citywide comparison charts.">
+        </div>
+      </div>
+
+      <section>
+        <h2><span class="case__num">01</span>Overview</h2>
+        <p>
+          NYC&rsquo;s Community Health Profiles have existed for years as PDF booklets, one
+          per community district, <strong>59 in total</strong>, each carrying roughly 50
+          health indicators across chronic conditions, social and economic factors, and
+          demographics, with comparisons to borough and citywide figures. They are widely
+          cited and hard to use: no search, no comparison, no interactivity, and a
+          production cycle measured in weeks.
+        </p>
+        <p>
+          I led a rebuild as a single web application where <strong>every neighborhood,
+          indicator, and section is generated from configuration</strong> rather than
+          bespoke pages. The prototype renders all 59 districts, supports side-by-side
+          comparison, deep-links to any indicator, and can be updated by editing JSON with
+          no engineering involved.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="case__num">02</span>The problem</h2>
+        <ul>
+          <li><strong>The content is combinatorial.</strong> 59 districts, about 50 indicators, 6 topic sections. Hand-building pages does not scale and drifts out of sync on every update.</li>
+          <li><strong>The audience is split.</strong> Community boards and residents want their own neighborhood at a glance; researchers and reporters want to compare districts and cite exact numbers.</li>
+          <li><strong>Updates were the bottleneck.</strong> New census or surveillance data meant re-laying-out documents by hand.</li>
+          <li><strong>Format limits reach.</strong> Accessibility and translation are difficult to do well in a PDF.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="case__num">03</span>Approach: config as the product</h2>
+        <p>
+          The system has five layers, each with one responsibility. Components never read
+          data files directly; they only render what the config hands them.
+        </p>
+        <ol class="case__steps">
+          <li><strong>Data files.</strong> Raw JSON of indicator values for every neighborhood, borough, and citywide. The only files touched on a data refresh.</li>
+          <li><strong>Indicator registry.</strong> A catalog of every indicator: its data key, display title, source citation, units, decimal precision, whether a higher value is healthier, and which topic it belongs to.</li>
+          <li><strong>Section configs.</strong> Which indicators appear in which section, how they are grouped, and how each is visualized.</li>
+          <li><strong>Page registry.</strong> Maps a route to a config object.</li>
+          <li><strong>Renderer.</strong> Walks the config and produces the page from a fixed set of about a dozen components.</li>
+        </ol>
+
+        <figure class="case__figure">
+          <svg viewBox="0 0 720 252" role="img" aria-label="Architecture diagram: four configuration inputs feed a renderer, which uses a shared component set to build every page.">
+            <defs>
+              <marker id="ar2" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="#b6bfd2"></path>
+              </marker>
+            </defs>
+            <text x="8" y="18" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#8b8d92">CONFIGURATION</text>
+            <rect x="8" y="30" width="176" height="32" rx="7" fill="#ffffff" stroke="#e7e6e2"></rect>
+            <text x="96" y="50" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">Data files (JSON)</text>
+            <rect x="8" y="70" width="176" height="32" rx="7" fill="#ffffff" stroke="#e7e6e2"></rect>
+            <text x="96" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">Indicator registry</text>
+            <rect x="8" y="110" width="176" height="32" rx="7" fill="#ffffff" stroke="#e7e6e2"></rect>
+            <text x="96" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">Section configs</text>
+            <rect x="8" y="150" width="176" height="32" rx="7" fill="#ffffff" stroke="#e7e6e2"></rect>
+            <text x="96" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">Page registry</text>
+
+            <path d="M188 106 H236" stroke="#b6bfd2" stroke-width="1.5" fill="none" marker-end="url(#ar2)"></path>
+
+            <rect x="242" y="78" width="150" height="56" rx="8" fill="#eef2fa" stroke="#2b5193"></rect>
+            <text x="317" y="102" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="600" fill="#1f3d70">Renderer</text>
+            <text x="317" y="119" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#41597f">walks config</text>
+
+            <path d="M396 106 H444" stroke="#b6bfd2" stroke-width="1.5" fill="none" marker-end="url(#ar2)"></path>
+
+            <rect x="450" y="78" width="132" height="56" rx="8" fill="#ffffff" stroke="#e7e6e2"></rect>
+            <text x="516" y="102" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">~12 shared</text>
+            <text x="516" y="119" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">components</text>
+
+            <path d="M586 106 H626" stroke="#b6bfd2" stroke-width="1.5" fill="none" marker-end="url(#ar2)"></path>
+
+            <rect x="632" y="70" width="80" height="72" rx="8" fill="#ffffff" stroke="#e7e6e2"></rect>
+            <text x="672" y="98" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">Every</text>
+            <text x="672" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#17181a">page</text>
+            <text x="672" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#6a6c70">59 dists</text>
+
+            <text x="8" y="190" font-family="Inter, sans-serif" font-size="12" fill="#8b8d92">Add an indicator: one registry entry plus a data file. Add a section: one config array.</text>
+            <text x="8" y="210" font-family="Inter, sans-serif" font-size="12" fill="#8b8d92">Add a neighborhood: one data row. No new page code.</text>
+          </svg>
+          <figcaption>Every page is the same components in a different configuration.</figcaption>
+        </figure>
+
+        <figure class="case__figure">
+          <img src="../assets/chp-config-components.png" alt="A topic section on the prototype: two indicator cards, Poverty and Unemployment, with identical layout: a ranked distribution chart, the neighborhood highlighted against citywide and borough reference lines, a source citation, and links to related indicators.">
+          <figcaption>One section, two indicators, one card component. The config decides which indicator, how it is labeled, and how it is charted.</figcaption>
+        </figure>
+
+        <p>Three things hold the experience together on top of that base:</p>
+        <ul>
+          <li><strong>URL-driven state.</strong> The selected neighborhood, the comparison, the active section, and the open indicator all live in the URL. Any view is linkable and the back button behaves.</li>
+          <li><strong>Cross-component interaction.</strong> Hovering a neighborhood on the map highlights it in every chart on the page, and hovering a chart highlights the map, through one shared hover context.</li>
+          <li><strong>Motion and loading, handled once.</strong> A single animation system and loading skeletons, with reduced-motion support and consistent keyboard navigation across the app.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="case__num">04</span>Key decisions</h2>
+        <div class="case__decisions">
+          <div class="decision">
+            <h3>Config over components</h3>
+            <p>Every hour on the config schema saved a day of page-building later. The risk was over-abstracting, so I kept the schema flat and readable, with a content guide aimed at non-engineers editing it directly.</p>
+          </div>
+          <div class="decision">
+            <h3>URL as the single source of truth for view state</h3>
+            <p>More wiring upfront, but comparison, deep links, sharing, and analytics all fell out of it for free.</p>
+          </div>
+          <div class="decision">
+            <h3>One component set, no per-page code</h3>
+            <p>Forces visual consistency and means a fix lands on all 59 districts at once. A genuinely unique layout needs a new block type, which is a deliberate, reviewed step rather than a one-off.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="case__num">05</span>Where it stands</h2>
+        <div class="case__results">
+          <div class="result"><strong>59 / 59</strong><span>districts render from one code path</span></div>
+          <div class="result"><strong>~50</strong><span>indicators, all config-defined</span></div>
+          <div class="result"><strong>6</strong><span>topic sections</span></div>
+          <div class="result"><strong>JSON edit</strong><span>replaces a 59-booklet production cycle</span></div>
+        </div>
+        <p>
+          The prototype is not yet public. It renders the full set of districts and
+          sections, supports comparison and deep links, and moves the update path from
+          document layout to a data edit.
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="case__num">06</span>What&rsquo;s next</h2>
+        <ul>
+          <li>A content-team dry run: can they ship a full data cycle without engineering support?</li>
+          <li>A translation pipeline. The config already separates copy from layout, which is most of the work.</li>
+          <li>An accessibility audit against WCAG 2.2 AA before launch.</li>
+          <li>Public release, then measurement of who uses it and how.</li>
+        </ul>
+      </section>
+
+      <div class="case__cta">
+        <a class="btn btn--ghost" href="../index.html#work">Back to work</a>
+      </div>
+
+    </article>
+
+    <footer class="foot">
+      <div class="foot__links">
+        <a href="#top">Top</a>
+        <a href="../assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+        <a href="https://www.linkedin.com/in/morgan-mueller-6b3719a3/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/morganmueller" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <p class="foot__copy">&copy; Morgan Mueller 2026</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

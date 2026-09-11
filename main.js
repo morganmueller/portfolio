@@ -7,7 +7,8 @@ const projData = [
     focus: "Led design and build of a public respiratory-virus tracker: chart architecture, interaction design, and a modular React front-end over cross-agency data.",
     impact: "The city's public reference for respiratory-virus trends through every illness season.",
     stack: ["React", "Vega-Lite", "D3", "Azure"],
-    img: "respiratory-tracker.png"
+    img: "respiratory-tracker.png",
+    caseUrl: "case/respiratory-illness-tracker.html"
   },
 
   {
@@ -63,11 +64,17 @@ const root = d3.select("#code-projects");
 const cards = root
   .selectAll(".card")
   .data(projData)
-  .join("a")
-  .attr("class", "card")
+  .join("div")
+  .attr("class", "card");
+
+// whole-card link to the live site (stretched behind the content)
+cards
+  .append("a")
+  .attr("class", "card__stretch")
   .attr("href", d => d.url)
   .attr("target", "_blank")
-  .attr("rel", "noopener");
+  .attr("rel", "noopener")
+  .attr("aria-label", d => `Visit the ${d.title} site`);
 
 cards
   .append("div")
@@ -107,6 +114,22 @@ body.append("ul")
   .join("li")
   .text(s => s);
 
+// case-study link row (only for projects that have one)
+const links = body.filter(d => d.caseUrl)
+  .append("div")
+  .attr("class", "card__links");
+
+links.append("a")
+  .attr("href", d => d.url)
+  .attr("target", "_blank")
+  .attr("rel", "noopener")
+  .html("Visit site &#8599;");
+
+links.append("a")
+  .attr("class", "card__case")
+  .attr("href", d => d.caseUrl)
+  .html("Read the case study &#8594;");
+
 /* ---------- Private, password-locked project (shown 2nd, next to Respiratory) ---------- */
 const LOCK_INDEX = num(1);
 const SS_KEY = "mm_private_project";
@@ -114,7 +137,8 @@ const SS_KEY = "mm_private_project";
 const LOCK_META = {
   title: "Community Health Profiles Redesign",
   org: "NYC Department of Health · Prototype",
-  img: "chp-redesign.png"
+  img: "chp-redesign.png",
+  caseUrl: "case/community-health-profiles.html"
 };
 
 const lockIcon = (open, size = 13) => `
@@ -144,6 +168,9 @@ function lockedMarkup() {
         <button class="btn btn--primary lock-form__btn" type="submit">Unlock</button>
       </form>
       <p class="lock-form__msg" role="alert" hidden></p>
+      <div class="card__links">
+        <a class="card__case" href="${LOCK_META.caseUrl}">Read the case study &#8594;</a>
+      </div>
     </div>`;
 }
 
@@ -159,7 +186,10 @@ function unlockedMarkup(p) {
       <p class="card__impact"><span class="card__impact-label">Impact</span> ${p.impact}</p>
       <ul class="card__stack">${stack}</ul>
       <p class="card__note">${lockIcon(false, 13)} ${p.note}</p>
-      <a class="btn btn--ghost lock-visit" href="${p.url}" target="_blank" rel="noopener">Visit prototype &#8599;</a>
+      <div class="card__links">
+        <a href="${p.url}" target="_blank" rel="noopener">Visit prototype &#8599;</a>
+        <a class="card__case" href="${LOCK_META.caseUrl}">Read the case study &#8594;</a>
+      </div>
     </div>`;
 }
 

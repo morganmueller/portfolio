@@ -248,6 +248,7 @@ section[id] { scroll-margin-top: 28px; }
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--surface);
@@ -262,6 +263,44 @@ section[id] { scroll-margin-top: 28px; }
   border-color: var(--accent);
   box-shadow: 0 16px 38px -16px rgba(0, 0, 0, 0.22);
 }
+
+/* whole-card link: transparent overlay that captures clicks */
+.card__stretch {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius);
+}
+
+.card__stretch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+
+/* real links inside the card sit above the overlay */
+.card__links {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.card__links a {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.card__links a:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+.card__case { font-weight: 600; }
 
 .card__thumb {
   aspect-ratio: 16 / 10;
