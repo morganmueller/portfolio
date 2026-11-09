@@ -1,7 +1,7 @@
 const projData = [
   {
     title: "Respiratory Illness Data Pages",
-    url: "https://nyc-respiratory-illness.netlify.app/",
+    url: "https://www.nyc.gov/assets/doh/respiratory-illness-data/index.html",
     org: "NYC Department of Health",
     role: "Product Lead & Data Visualization Engineer",
     focus: "Led design and build of a public respiratory-virus tracker: chart architecture, interaction design, and a modular React front-end over cross-agency data.",
